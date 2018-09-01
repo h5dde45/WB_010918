@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Greeting</title>
 </head>
 <body>
-<h3>${message}</h3>
+<h3>Hello, ${name}... </h3>
 </body>
 </html>

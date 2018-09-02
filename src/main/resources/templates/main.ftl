@@ -6,10 +6,16 @@
 </head>
 <body>
 <div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
     <form method="post">
         <input type="text" name="text" placeholder="Enter message...">
         <input type="text" name="tag" placeholder="Enter tag...">
-        <#--<input type="hidden" name="_csrf" value="${_csrf.token}">-->
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
         <button type="submit">Add</button>
     </form>
 </div>
@@ -17,7 +23,7 @@
 <div>
     <form method="post" action="filter">
         <input type="text" name="filter" placeholder="Enter a tag to search for messages...">
-        <#--<input type="hidden" name="_csrf" value="${_csrf.token}">-->
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
         <button type="submit">Find</button>
     </form>
 </div>

@@ -5,6 +5,7 @@
     <title>Greeting</title>
 </head>
 <body>
-<h3>Hello, ${name}... </h3>
+<h3>Hello, user... </h3>
+<a href="/main">Main Page</a>
 </body>
 </html>

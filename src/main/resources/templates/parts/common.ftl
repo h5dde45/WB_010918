@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WB</title>
+    <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
     <#nested>

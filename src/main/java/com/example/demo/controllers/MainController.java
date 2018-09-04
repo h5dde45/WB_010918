@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @Controller
@@ -46,17 +45,10 @@ public class MainController {
 
     @GetMapping("/img/{id}")
     public ResponseEntity<byte[]> image(@PathVariable("id") Message message) throws IOException {
-        byte[] bytes;
-        try (
-                ByteArrayOutputStream out = new ByteArrayOutputStream()
-        ) {
-            out.write(message.getImage());
-            bytes = out.toByteArray();
-        }
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
 
-        return new ResponseEntity<>(bytes, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(message.getImage(), headers, HttpStatus.CREATED);
     }
 
     @PostMapping("/main")
@@ -69,7 +61,6 @@ public class MainController {
         Message message = new Message(text, tag, user);
 
         if (file != null && !file.getOriginalFilename().isEmpty()) {
-
             message.setImage(file.getBytes());
         }
 

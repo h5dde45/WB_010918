@@ -5,6 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,10 +16,16 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Fill out this field. Enter the username")
     private String username;
+    @NotBlank(message = "Fill out this field. Enter the password")
     private String password;
+
     private boolean active;
 
+    @Email(message = "Email address is not filled correctly")
+    @NotBlank(message = "Fill out this field. Enter your email address")
     private String email;
     private String activationCode;
 
@@ -110,4 +118,5 @@ public class User implements UserDetails{
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
+
 }

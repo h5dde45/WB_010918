@@ -10,66 +10,7 @@
         </form>
     </div>
 </div>
+    <#include "parts/messageEdit.ftl" />
+    <#include "parts/messageList.ftl" />
 
-<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-   aria-controls="collapseExample">
-    Add new Message
-</a>
-<div class="collapse <#if message??>show</#if>" id="collapseExample">
-    <div class="form-group mt-3">
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <input type="text" class="form-control
-                       ${(textError??)?string('is-invalid', '')}"
-                       value="<#if message??>${message.text}</#if>"
-                       name="text" placeholder="Enter message.."/>
-                <#if textError??>
-                    <div class="invalid-feedback">
-                    ${textError}
-                    </div>
-                </#if>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control
-                        ${(tagError??)?string('is-invalid', '')}"
-                       value="<#if message??>${message.tag}</#if>"
-                       name="tag" placeholder="Enter tag..">
-                <#if tagError??>
-                    <div class="invalid-feedback">
-                    ${tagError}
-                    </div>
-                </#if>
-            </div>
-            <div class="form-group">
-                <div class="custom-file">
-                    <input type="file" name="file" id="customFile">
-                    <label class="custom-file-label" for="customFile">Select the file in png format..</label>
-                </div>
-            </div>
-            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="card-columns">
-    <#list messages as message>
-        <div class="card my-3">
-            <#if message.image??>
-                <img src="/img/${message.id}" class="card-img-top">
-            </#if>
-            <div class="m-2">
-                <span>${message.text}</span>
-                <i>${message.tag}</i>
-            </div>
-            <div class="card-footer text-muted">
-            ${message.authorName}
-            </div>
-        </div>
-    <#else>
-        No message
-    </#list>
-</div>
 </@c.page>

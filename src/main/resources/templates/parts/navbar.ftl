@@ -31,6 +31,10 @@
                 <a class="nav-link" href="/user/profile">Profile</a>
             </li>
         </#if>
+            <li class="nav-item ">
+                <a class="nav-link"
+                   href="/how_it_works">How it works</a>
+            </li>
         </ul>
         <div class="navbar-text mr-3"><#if user??>${name}<#else >The user is not defined..</#if></div>
     <@l.logout/>

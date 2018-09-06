@@ -47,7 +47,6 @@ public class MainController {
         return "main";
     }
 
-
     @GetMapping("/img/{id}")
     public ResponseEntity<byte[]> image(@PathVariable("id") Message message) throws IOException {
         HttpHeaders headers = new HttpHeaders();

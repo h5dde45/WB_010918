@@ -32,6 +32,10 @@
             <a href="https://yadi.sk/i/XHbFJEv7ak8BPw" target="_blank">
                 Страница регистрации</a>
         </li>
+        <li class="list-group-item">
+            <a href="https://yadi.sk/i/Z5TaIajDD_p32A" target="_blank">
+                Активация нового пользователя</a>
+        </li>
     </ul>
 </div>
 </@c.page>

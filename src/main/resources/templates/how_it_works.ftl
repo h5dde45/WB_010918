@@ -20,6 +20,18 @@
             <a href="https://yadi.sk/i/PHH00WFx83bRAQ" target="_blank">
                 Авторизация</a>
         </li>
+        <li class="list-group-item">
+            <a href="https://yadi.sk/i/HABQzRmkYfaMHA" target="_blank">
+                Просмотр сообщений</a>
+        </li>
+        <li class="list-group-item">
+            <a href="https://yadi.sk/i/Zw8mGkXF0jpYaw" target="_blank">
+                Мои сообщения</a>
+        </li>
+        <li class="list-group-item">
+            <a href="https://yadi.sk/i/XHbFJEv7ak8BPw" target="_blank">
+                Страница регистрации</a>
+        </li>
     </ul>
 </div>
 </@c.page>

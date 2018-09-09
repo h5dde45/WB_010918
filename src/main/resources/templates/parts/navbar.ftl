@@ -37,6 +37,10 @@
             </li>
         </ul>
         <div class="navbar-text mr-3"><#if user??>${name}<#else >The user is not defined..</#if></div>
-    <@l.logout/>
+    <#if user??>
+        <@l.logout/>
+    <#else >
+        <a class="btn btn-success" href="/login">Log in</a>
+    </#if>
     </div>
 </nav>

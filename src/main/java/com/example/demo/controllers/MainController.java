@@ -67,7 +67,8 @@ public class MainController {
             @Valid Message message,
             BindingResult bindingResult,
             @RequestParam("file") MultipartFile file,
-            Model model) throws IOException {
+            Model model,
+            @PageableDefault(sort = "id", size = 5, direction = Sort.Direction.DESC) Pageable pageable) throws IOException {
         message.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
@@ -82,7 +83,9 @@ public class MainController {
             model.addAttribute("message", null);
             messageRepo.save(message);
         }
-        model.addAttribute("messages", messageRepo.findAll());
+
+        model.addAttribute("url", "/main");
+        model.addAttribute("page", messageRepo.findAll(pageable));
         return "main";
     }
 
@@ -99,7 +102,7 @@ public class MainController {
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-        model.addAttribute("url", "/user-messages/"+user.getId());
+        model.addAttribute("url", "/user-messages/" + user.getId());
         model.addAttribute("page", messages);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
@@ -114,21 +117,31 @@ public class MainController {
             @RequestParam("id") Message message,
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
-            @RequestParam("file") MultipartFile file
-    ) throws IOException {
-        if (message.getAuthor().equals(currentUser)) {
-            if (!StringUtils.isEmpty(text)) {
-                message.setText(text);
-            }
+            @RequestParam("file") MultipartFile file) throws IOException {
+        if (message != null) {
+            if (message.getAuthor().equals(currentUser)) {
+                if (!StringUtils.isEmpty(text)) {
+                    message.setText(text);
+                }
 
-            if (!StringUtils.isEmpty(tag)) {
-                message.setTag(tag);
-            }
+                if (!StringUtils.isEmpty(tag)) {
+                    message.setTag(tag);
+                }
 
+                if (file != null && !file.getOriginalFilename().isEmpty()) {
+                    message.setImage(file.getBytes());
+                }
+
+                messageRepo.save(message);
+            }
+        } else {
+            message = new Message();
+            message.setTag(tag);
+            message.setText(text);
+            message.setAuthor(currentUser);
             if (file != null && !file.getOriginalFilename().isEmpty()) {
                 message.setImage(file.getBytes());
             }
-
             messageRepo.save(message);
         }
 

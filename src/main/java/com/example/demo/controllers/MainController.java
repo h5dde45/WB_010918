@@ -4,6 +4,10 @@ import com.example.demo.domain.Message;
 import com.example.demo.domain.User;
 import com.example.demo.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class MainController {
@@ -37,12 +40,15 @@ public class MainController {
     @GetMapping("/main")
     public String main(
             @RequestParam(required = false) String filter,
-            Model model) {
+            Model model,
+            @PageableDefault(sort = "id", size = 5, direction = Sort.Direction.DESC) Pageable pageable) {
         if (filter != null && !filter.isEmpty()) {
-            model.addAttribute("messages", messageRepo.findByTag(filter));
+            model.addAttribute("page", messageRepo.findByTag(filter, pageable));
         } else {
-            model.addAttribute("messages", messageRepo.findAll());
+            model.addAttribute("page", messageRepo.findAll(pageable));
         }
+
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
         return "main";
     }
@@ -64,12 +70,12 @@ public class MainController {
             Model model) throws IOException {
         message.setAuthor(user);
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
-        }else {
+        } else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
                 message.setImage(file.getBytes());
             }
@@ -85,15 +91,16 @@ public class MainController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable User user,
             Model model,
-            @RequestParam(required = false) Message message
-    ) {
-        Set<Message> messages = user.getMessages();
+            @RequestParam(required = false) Message message,
+            @PageableDefault(sort = "id", size = 5, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Message> messages = messageRepo.findByAuthor(user, pageable);
 
         model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-        model.addAttribute("messages", messages);
+        model.addAttribute("url", "/user-messages/"+user.getId());
+        model.addAttribute("page", messages);
         model.addAttribute("message", message);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
 

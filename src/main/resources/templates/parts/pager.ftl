@@ -14,7 +14,7 @@
     <#else>
         <#assign body = 1..page.getTotalPages()>
     </#if>
-<div class="mt-3">
+<div class="mt-3 paginator rounded">
     <ul class="pagination">
         <li class="page-item disabled">
             <a class="page-link" href="#" tabindex="-1">Страницы</a>

@@ -73,6 +73,7 @@ public class MainController {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            message.setId((long) -1);
 
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
@@ -118,7 +119,7 @@ public class MainController {
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
             @RequestParam("file") MultipartFile file) throws IOException {
-        if (message != null) {
+        if (message != null ) {
             if (message.getAuthor().equals(currentUser)) {
                 if (!StringUtils.isEmpty(text)) {
                     message.setText(text);
